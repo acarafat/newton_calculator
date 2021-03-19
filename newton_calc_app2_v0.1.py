@@ -28,21 +28,21 @@ st.write('s=(1/2)(u+v)t গতিসূত্রের হিসাব বের
 
 option = st.selectbox('কোন চলকের মান বের করতে চান? নিচের ড্রপডাউন থেকে নির্ধারণ করুন:', ['চলক সনাক্ত করুন', 'সরণ (s)', 'আদিবেগ (v)', 'ত্বরণ (a)', 'সময় (t)'])
 
-elif option == 'সরণ (s)':
+if option == 'সরণ (s)':
     u = ask_u()
     t = ask_t()
     v = ask_v()
     s = 0.5*(u+v)*t
     st.write('s, সরণ = ', s)
 
-if option == 'আদিবেগ (u)':
+elif option == 'আদিবেগ (u)':
     s = ask_s()
     v = ask_v()
     t = ask_t()
     u = (2*s)/t - v
     st.write('u, আদিবেগ = ', u)
 
-if option == 'শেষবেগ (v)':
+elif option == 'শেষবেগ (v)':
     s = ask_s()
     u = ask_u()
     t = ask_t()
