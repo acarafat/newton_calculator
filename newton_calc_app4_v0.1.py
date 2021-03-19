@@ -55,7 +55,7 @@ elif option == 'ত্বরণ (a)':
 elif option == 'সময় (t)':
     a = ask_a()
     u = ask_u()
-    v = ask_v()
+    s = ask_s()
     t = -u/a + math.sqrt(u*u +2*a*s)/a
     st.write('t, সময় = ', t)
 
