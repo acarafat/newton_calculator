@@ -33,6 +33,9 @@ st.write('নিউটনিয়ান গতি-সমীকরণগুলো (
 
 known_variables = st.multiselect('যে চলক তিনটির মান আপনি জানেন, তাদেরকে এই ড্রপডাউন থেকে নির্বাচন করুন এবং একই ইউনিট সিস্টেমে মানগুলো লিখুন:', ['সরণ (s)','আদিবেগ (u)', 'শেষবেগ (v)', 'ত্বরণ (a)', 'সময় (t)'])
 
+while len(known_variables)>3:
+    del known_variables[-2]
+
 if all(elem in known_variables  for elem in ['আদিবেগ (u)', 'শেষবেগ (v)', 'সময় (t)']):
     u = ask_u()
     v = ask_v()
