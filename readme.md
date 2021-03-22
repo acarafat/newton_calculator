@@ -1,3 +1,6 @@
+# About
+This is a calculator app to help Bengali highschool students to solve mathmetical problems of motion (Newton's law of motion).
+
 # Use the app in Bigganblog.org
 https://bit.ly/2OZT9Kz
 
@@ -11,6 +14,7 @@ Fuad and Arafat for Bigganblog.org
 Please share it!
 
 # Feedback and comments
+Please comment on: https://bit.ly/2OZT9Kz
 
 
 # Tips for next Streamlit app
