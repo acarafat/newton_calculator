@@ -1,5 +1,5 @@
 # About
-This is a calculator app to help Bengali highschool students to solve mathmetical problems of motion (Newton's law of motion).
+This is a calculator app to help Bengali highschool students to solve mathmetical problems on motion using Newton's equations of linear motion a.k.a. SUVAT equations.
 
 # Use the app in Bigganblog.org
 https://bit.ly/2OZT9Kz
