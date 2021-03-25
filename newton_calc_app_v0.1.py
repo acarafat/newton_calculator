@@ -29,7 +29,7 @@ def ask_t():
 # Main App #
 ############
 
-st.markdown("<h1 style='text-align: center; color: red; font-family: Solaimanlipi'>গতি-সমীকরণ ক্যালকুলেটর </h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: #ff7903; font-family: Solaimanlipi'>গতি-সমীকরণ ক্যালকুলেটর </h1>", unsafe_allow_html=True)
 
 st.write('নিউটনিয়ান গতি-সমীকরণগুলো (SUVAT সমীকরণ) দিয়ে সমত্বরণে চলমান বস্তুর গতীয় চলকগুলো হিসাব করতে এই ক্যালকুলেটরটি আপনাকে সাহায্য করবে।')
 
