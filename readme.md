@@ -1,22 +1,22 @@
 # About
 This is a calculator app to help Bengali highschool students to solve mathmetical problems on motion using Newton's equations of linear motion a.k.a. SUVAT equations.
 
-# Use the app in Bigganblog.org
-https://bit.ly/2OZT9Kz
+### Use the app in Bigganblog.org
+[বিজ্ঞান ব্লগঃ গতির সমীকরণ ক্যালকুলেটর](https://bigganblog.org/2021/03/গতির-সমীকরণ/)
 
-# This app is hosted in Streamlit share
-https://share.streamlit.io/acarafat/newton_calculator/main/newton_calc_app_v0.1.py
+### This app is hosted in Streamlit share 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/acarafat/newton_calculator/main/newton_calc_app_v0.1.py/)
 
-# Developed by 
-Fuad and Arafat for Bigganblog.org
+### Developed by 
+[Fuad](https://bigganblog.org/author/koutuholi/) and [Arafat](https://bigganblog.org/author/arafat/) for [Bigganblog.org](https://bigganblog.org/)
 
-# Like it?
+### Like it?
 Please share it!
 
-# Feedback and comments
-Please comment on: https://bit.ly/2OZT9Kz
+### Feedback and comments
+Please comment on: [গতির সমীকরণ ক্যালকুলেটর](https://bitly.com/2OZT9Kz)
 
 
-# Tips for next Streamlit app
+### Tips for next Streamlit app
 To get requirements.txt:
 `pipreqs Projects/first_streamlit_app/`
