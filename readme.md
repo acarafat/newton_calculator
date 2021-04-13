@@ -20,7 +20,6 @@ Please comment on: [গতির সমীকরণ ক্যালকুলে�
 ### Tips for next Streamlit app
 
 #### Generate the `requirements.txt` file:
-
 ```
 pipreqs --force --encoding utf8 Projects/first_streamlit_app/
 ```
