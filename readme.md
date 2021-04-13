@@ -18,5 +18,9 @@ Please comment on: [গতির সমীকরণ ক্যালকুলে�
 
 
 ### Tips for next Streamlit app
-To get requirements.txt:
-`pipreqs Projects/first_streamlit_app/`
+
+#### Generate the `requirements.txt` file:
+
+```
+pipreqs --force --encoding utf8 Projects/first_streamlit_app/
+```
