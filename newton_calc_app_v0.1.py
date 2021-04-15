@@ -2,40 +2,44 @@ import streamlit as st
 import math
 
 #############
-# Variables #
+# Functions #
 #############
 
-def ask(variable):
+def _ask(variable):
     return st.number_input(f'{variable} :', step=None, format='%f')
+
+def ask(*variables):                    #  https://codereview.stackexchange.com/a/259470/230104
+    return [_ask(variable) for variable in variables]
+
+def check_variables(variables, values):    #  https://codereview.stackexchange.com/a/259505/230104
+    for variable, flag in variables.items():
+        if flag != (variable in values):
+            return False
+    return True
 
 ############
 # Main App #
 ############
 
-st.markdown("<h1 style='text-align: center; color: #ff7903; font-family: Solaimanlipi'>গতি-সমীকরণ ক্যালকুলেটর </h1>", unsafe_allow_html=True)
+st.markdown("<div><h1 style='text-align: center; color: #ff7903; font-family: Solaimanlipi'>গতি-সমীকরণ ক্যালকুলেটর </h1></div>", unsafe_allow_html=True)
 
 st.write('নিউটনিয়ান গতি-সমীকরণগুলো (SUVAT সমীকরণ) দিয়ে সমত্বরণে চলমান বস্তুর গতীয় চলকগুলো হিসাব করতে এই ক্যালকুলেটরটি আপনাকে সাহায্য করবে।')
 
 st.write('যে চলক তিনটির মান আপনি জানেন, তাদেরকে নির্বাচন করুন:')
 
-option_s = st.checkbox('সরণ (s)')
-option_u = st.checkbox('আদিবেগ (u)')
-option_v = st.checkbox('শেষবেগ (v)')
-option_a = st.checkbox('ত্বরণ (a)')
-option_t = st.checkbox('সময় (t)')
-known_variables = option_s + option_u + option_v + option_a + option_t
+opts = [ ('s', 'সরণ'), ('u', 'আদিবেগ'), ('v', 'শেষবেগ'), ('a', 'ত্বরণ'), ('t', 'সময়') ]
 
-if known_variables <3:
+known_variables = {symbol: st.checkbox(f"{name} ({symbol})") for symbol, name in opts}    # https://codereview.stackexchange.com/a/259505/230104
+
+if sum(known_variables.values()) <3:
     st.write('কমপক্ষে যেকোন তিনটি চলক নির্বাচন করুন যাদের মান আপনার জানা আছে।')
-elif known_variables == 3:
+elif sum(known_variables.values()) == 3:
    st.write('আপনার নির্বাচিত ৩টা চলকের মান একই ইউনিট সিস্টেমে লিখুন। সেই অনুযায়ী এই ক্যালকুলেটর বাকি ২টা চলকের মান হিসাব করে জানিয়ে দিবে।')
-elif known_variables >3:
+elif sum(known_variables.values()) >3:
     st.write('সর্ব্বোচ্চ যেকোন তিনটি চলক নির্বাচন করুন যাদের মান আপনার জানা আছে।')
 
-if (option_s is False and option_u and option_v and option_a is False and option_t):    # ['আদিবেগ (u)', 'শেষবেগ (v)', 'সময় (t)']
-    u = ask('আদিবেগ (u)')
-    v = ask('শেষবেগ (v)')
-    t = ask('সময় (t)')
+if check_variables(known_variables, ['u', 'v', 't']):    # ['আদিবেগ (u)', 'শেষবেগ (v)', 'সময় (t)']
+    u, v, t = ask('আদিবেগ (u)', 'শেষবেগ (v)', 'সময় (t)')
     if st.button('বাকি দুই চলকের অজানা মান সমীকরণসহ জানতে এখানে ক্লিক করুন') is True:
         st.write("""        মান নির্ণয়ে ব্যবহৃত সমীকরণদ্বয়:
         $$
@@ -51,10 +55,8 @@ if (option_s is False and option_u and option_v and option_a is False and option
         st.write('সরণ $(s) = \\frac{1}{2}(u+v)t =$ ', s)
         st.write('ত্বরণ $(a) = \\frac{v-u}{t} =$ ', a)
 
-elif (option_s is False and option_u and option_v and option_a and option_t is False):  # ['আদিবেগ (u)', 'শেষবেগ (v)', 'ত্বরণ (a)']
-    u = ask('আদিবেগ (u)')
-    v = ask('শেষবেগ (v)')
-    a = ask('ত্বরণ (a)')
+elif check_variables(known_variables, ['u', 'v', 'a']):  # ['আদিবেগ (u)', 'শেষবেগ (v)', 'ত্বরণ (a)']
+    u, v, a = ask('আদিবেগ (u)', 'শেষবেগ (v)', 'ত্বরণ (a)')
     if st.button('বাকি দুই চলকের অজানা মান সমীকরণসহ জানতে এখানে ক্লিক করুন') is True:
         st.write("""        মান নির্ণয়ে ব্যবহৃত সমীকরণদ্বয়:
         $$
@@ -71,10 +73,8 @@ elif (option_s is False and option_u and option_v and option_a and option_t is F
         st.write('সরণ $(s) = \\frac{v^2-u^2}{2a} =$ ', s)
         st.write('সময় $(t) = \\frac{v-u}{a} =$ ', t)
 
-elif (option_s is False and option_u and option_v is False  and option_a and option_t): # ['আদিবেগ (u)', 'ত্বরণ (a)', 'সময় (t)']
-    u = ask('আদিবেগ (u)')
-    a = ask('ত্বরণ (a)')
-    t = ask('সময় (t)')
+elif check_variables(known_variables, ['u', 'a', 't']): # ['আদিবেগ (u)', 'ত্বরণ (a)', 'সময় (t)']
+    u, a, t = ask('আদিবেগ (u)', 'ত্বরণ (a)', 'সময় (t)')
     if st.button('বাকি দুই চলকের অজানা মান সমীকরণসহ জানতে এখানে ক্লিক করুন') is True:
         st.write("""        মান নির্ণয়ে ব্যবহৃত সমীকরণদ্বয়:
         $$
@@ -86,10 +86,8 @@ elif (option_s is False and option_u and option_v is False  and option_a and opt
         st.write('সরণ $(s) = ut + \\frac{1}{2}at^2 =$ ', s)
         st.write('শেষবেগ $(v) = u + at =$ ', v)
 
-elif (option_s is False and option_u is False and option_v and option_a and option_t):  # ['শেষবেগ (v)', 'ত্বরণ (a)', 'সময় (t)']
-    v = ask('শেষবেগ (v)')
-    a = ask('ত্বরণ (a)')
-    t = ask('সময় (t)')
+elif check_variables(known_variables, ['v', 'a', 't']):  # ['শেষবেগ (v)', 'ত্বরণ (a)', 'সময় (t)']
+    v, a, t = ask('শেষবেগ (v)', 'ত্বরণ (a)', 'সময় (t)')
     if st.button('বাকি দুই চলকের অজানা মান সমীকরণসহ জানতে এখানে ক্লিক করুন') is True:
         st.write("""        মান নির্ণয়ে ব্যবহৃত সমীকরণদ্বয়:
         $$
@@ -99,12 +97,10 @@ elif (option_s is False and option_u is False and option_v and option_a and opti
         u = v - a*t
         st.write('আপনার দেওয়া মানগুলো উক্ত সমীকরণদ্বয়ে বসিয়ে পাই:')
         st.write('সরণ $(s) = vt - \\frac{1}{2}at^2 =$ ', s)
-        st.write('আদিবেগ $(u) =u - at =$ ', u)
+        st.write('আদিবেগ $(u) = v - at =$ ', u)
 
-elif (option_s and option_u is False and option_v is False and option_a and option_t):  # ['সরণ (s)', 'ত্বরণ (a)', 'সময় (t)']
-    s = ask('সরণ (s)')
-    a = ask('ত্বরণ (a)')
-    t = ask('সময় (t)')
+elif check_variables(known_variables, ['s', 'a', 't']):  # ['সরণ (s)', 'ত্বরণ (a)', 'সময় (t)']
+    s, a, t = ask('সরণ (s)', 'ত্বরণ (a)', 'সময় (t)')
     if st.button('বাকি দুই চলকের অজানা মান সমীকরণসহ জানতে এখানে ক্লিক করুন') is True:
         st.write("""        মান নির্ণয়ে ব্যবহৃত সমীকরণদ্বয়:
         $$
@@ -121,10 +117,8 @@ elif (option_s and option_u is False and option_v is False and option_a and opti
         st.write('আদিবেগ $(u) = \\frac{s}{t} - \\frac{1}{2}at =$ ', u)
         st.write('শেষবেগ $(v) = \\frac{s}{t} + \\frac{1}{2}at =$ ', v)
 
-elif (option_s and option_u is False and option_v and option_a is False and option_t):  # ['সরণ (s)', 'শেষবেগ (v)', 'সময় (t)']
-    s = ask('সরণ (s)')
-    v = ask('শেষবেগ (v)')
-    t = ask('সময় (t)')
+elif check_variables(known_variables, ['s', 'v', 't']):  # ['সরণ (s)', 'শেষবেগ (v)', 'সময় (t)']
+    s, v, t = ask('সরণ (s)', 'শেষবেগ (v)', 'সময় (t)')
     if st.button('বাকি দুই চলকের অজানা মান সমীকরণসহ জানতে এখানে ক্লিক করুন') is True:
         st.write("""        মান নির্ণয়ে ব্যবহৃত সমীকরণদ্বয়:
         $$
@@ -141,10 +135,8 @@ elif (option_s and option_u is False and option_v and option_a is False and opti
         st.write('আদিবেগ $(u) = \\frac{2s}{t} - v =$ ', u)
         st.write('ত্বরণ $(a)  = \\frac{2(vt-s)}{t^2} =$ ', a)
 
-elif (option_s and option_u is False and option_v and option_a and option_t is False):  # ['সরণ (s)', 'শেষবেগ (v)', 'ত্বরণ (a)']
-    s = ask('সরণ (s)')
-    v = ask('শেষবেগ (v)')
-    a = ask('ত্বরণ (a)')
+elif check_variables(known_variables, ['s', 'v', 'a']):  # ['সরণ (s)', 'শেষবেগ (v)', 'ত্বরণ (a)']
+    s, v, a = ask('সরণ (s)', 'শেষবেগ (v)', 'ত্বরণ (a)')
     if st.button('বাকি দুই চলকের অজানা মান সমীকরণসহ জানতে এখানে ক্লিক করুন') is True:
         st.write("""        মান নির্ণয়ে ব্যবহৃত সমীকরণদ্বয়:
         $$
@@ -164,10 +156,8 @@ elif (option_s and option_u is False and option_v and option_a and option_t is F
         st.write('আদিবেগ $(u) = \\sqrt{v^2 -2as} =$ ', u)
         st.write('সময় $(t)= \\frac{v}{a} - \\frac{\\sqrt{v^2 - 2as}}{a} =$ ', t)
 
-elif (option_s and option_u and option_v is False and option_a is False and option_t):  # ['সরণ (s)', 'আদিবেগ (u)', 'সময় (t)']
-    s = ask('সরণ (s)')
-    u = ask('আদিবেগ (u)')
-    t = ask('সময় (t)')
+elif check_variables(known_variables, ['s', 'u', 't']):  # ['সরণ (s)', 'আদিবেগ (u)', 'সময় (t)']
+    s, u, t = ask('সরণ (s)', 'আদিবেগ (u)', 'সময় (t)')
     if st.button('বাকি দুই চলকের অজানা মান সমীকরণসহ জানতে এখানে ক্লিক করুন') is True:
         st.write("""        মান নির্ণয়ে ব্যবহৃত সমীকরণদ্বয়:
         $$
@@ -184,10 +174,8 @@ elif (option_s and option_u and option_v is False and option_a is False and opti
         st.write('শেষবেগ $(v) = \\frac{2s}{t}-u =$ ', v)
         st.write('ত্বরণ $(a)= \\frac{2(s-ut)}{t^2} =$ ', a)
 
-elif (option_s and option_u and option_v is False and option_a and option_t is False):  # ['সরণ (s)', 'আদিবেগ (u)', 'ত্বরণ (a)']
-    s = ask('সরণ (s)')
-    u = ask('আদিবেগ (u)')
-    a = ask('ত্বরণ (a)')
+elif check_variables(known_variables, ['s', 'u', 'a']):  # ['সরণ (s)', 'আদিবেগ (u)', 'ত্বরণ (a)']
+    s, u, a = ask('সরণ (s)', 'আদিবেগ (u)', 'ত্বরণ (a)')
     if st.button('বাকি দুই চলকের অজানা মান সমীকরণসহ জানতে এখানে ক্লিক করুন') is True:
         st.write("""        মান নির্ণয়ে ব্যবহৃত সমীকরণদ্বয়:
         $$
@@ -207,10 +195,8 @@ elif (option_s and option_u and option_v is False and option_a and option_t is F
         st.write('শেষবেগ $(v) = \\sqrt{u^2 + 2as} =$ ', v)
         st.write('সময় $(t) = -\\frac{u}{a} + \\frac{\\sqrt{u^2 + 2as}}{a} =$ ', t)
 
-elif (option_s and option_u and option_v and option_a is False and option_t is False):  # ['সরণ (s)', 'আদিবেগ (u)', 'শেষবেগ (v)']
-    s = ask('সরণ (s)')
-    u = ask('আদিবেগ (u)')
-    v = ask('শেষবেগ (v)')
+elif check_variables(known_variables, ['s', 'u', 'v']):  # ['সরণ (s)', 'আদিবেগ (u)', 'শেষবেগ (v)']
+    s, u, v = ask('সরণ (s)', 'আদিবেগ (u)', 'শেষবেগ (v)')
     if st.button('বাকি দুই চলকের অজানা মান সমীকরণসহ জানতে এখানে ক্লিক করুন') is True:
         st.write("""        মান নির্ণয়ে ব্যবহৃত সমীকরণদ্বয়:
         $$
